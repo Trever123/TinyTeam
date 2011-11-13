@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Untitled Document</title>
+<link href="/uploadify/uploadify.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/uploadify/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/uploadify/swfobject.js"></script>
+<script type="text/javascript" src="/uploadify/jquery.uploadify.v2.1.4.js"></script>
+<script type="text/javascript" src="timer.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+$('#file_upload').uploadify({
+  'uploader'      : '/uploadify/uploadify.swf',
+  'script'        : '/uploadify/uploadify.php',
+  'cancelImg'     : '/uploadify/cancel.png',
+  'folder'        : '/uploads',
+  'multi'         : true,
+
+  'onAllComplete' : function(event,data) {
+	  $('#file_uploadUploader').hide();
+	  $('#loader').show();
+      $.timer(1000, function (timer) {
+  		$.ajax({
+   		 url: 'filechecker.php?ref='+ref,
+   		 success: function(data) {
+		 if(data == '-1'){
+		   timer.reset(3000);
+	     }else{
+			 $('#loader').hide();
+		  $('#box').append(data);
+		  timer.stop();
+	     }
+ 	   }
+    });
+  });
+    },
+  'auto'        : true,
+  'fileExt'     : '*.pdf',
+  'fileDesc'    : 'PDF Files',
+  'sizeLimit'   :  5242880,
+  'wmode'       : 'transparent',
+  'hideButton'  : true
+});
+});
+</script>
+<style>
+#file_uploadUploader {
+  background: url('/images/button.jpg') no-repeat;
+}s
+#file_uploadQueue{display:none}
+</style>
+</head>
+
+<body>
+<input id="file_upload" name="file_upload" type="file" />
+<img src="images/loader.gif" width="200" height="100" id="loader" style="display:none" />
+<div id="box"></div>
+</body>
+</html>
