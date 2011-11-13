@@ -1,0 +1,2 @@
+The Tiny Mapper is a Java/ PHP program that takes lecture notes in pdf form and analyses them for key words. The working prototype outputs links to Wikipedia pages relating to the keywords found in the PDF file. Potentially, this program could also search for journals on sites like Science Direct or books in the university library database. Another extension could be an easy to use interface allowing lecturers to input links into the PDF files at a click of a button.
+We define a key word by making sure it is not in a common word list and is regularly used throughout the PDF.
